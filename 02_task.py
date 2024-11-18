@@ -38,3 +38,23 @@
 # print("Ваші лотерейні числа:", lottery_numbers)
 
 # Цей код викликає функцію get_numbers_ticket з параметрами min=1, max=49 та quantity=6. В результаті ви отримаєте список з 6 випадковими, унікальними та відсортованими числами, наприклад, [4, 15, 23, 28, 37, 45]. Кожен раз при виклику функції ви отримуватимете різний набір чисел.
+
+import random
+
+def get_numbers_ticket(min, max, quantity):
+    if min < 1 or max > 1000 or quantity < 5 or quantity > 6 :
+        return "Невалідні вхідні дані. Перевірте діапазон чисел або їх кількість."
+    
+    try:
+        lottery_numbers = random.sample(range(min, max + 1), quantity)
+        return sorted(lottery_numbers)
+    except ValueError as e:
+        return f"Помилка генерації чисел: {e}"
+
+print("Ваші лотерейні числа:", get_numbers_ticket(1, 49, 6))
+print("Ваші лотерейні числа:", get_numbers_ticket(1, 36, 5))
+print("Результат:", get_numbers_ticket(10, 20,7 ))
+print("Результат:", get_numbers_ticket(1, 49, 4))
+print("Результат:", get_numbers_ticket(-5, 50, 5))
+print("Результат:", get_numbers_ticket(1, 1050, 5))
+
