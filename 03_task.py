@@ -60,14 +60,26 @@
 
 import re
 
-def normalize_phone(phone_number):
-    phone_number = re.sub(r'[^0-9+]', '', phone_number)
-    if phone_number.startswith('+'):
-        return phone_number
-    elif phone_number.startswith('380'):
-        return f'+{phone_number}'
-    else:
-        return f'+38{phone_number}'
+def process_phone_numbers(phone_numbers):
+    correct_numbers = []
+    incorrect_numbers = []
+
+    for phone_number in phone_numbers:
+        normalized = re.sub(r'[^0-9+]', '', phone_number.strip())
+        
+        if not normalized or not re.search(r'\d', normalized) or len(normalized) < 10:
+            incorrect_numbers.append(phone_number)
+        elif normalized.startswith('+'):
+            correct_numbers.append(normalized)
+        elif normalized.startswith('380'):
+            correct_numbers.append(f'+{normalized}')
+        elif normalized.startswith('0'):
+            correct_numbers.append(f'+38{normalized}')
+        else:
+            incorrect_numbers.append(phone_number)
+
+    return correct_numbers, incorrect_numbers
+
 
 raw_numbers = [
     "067\\t123 4567",
@@ -79,11 +91,15 @@ raw_numbers = [
     "(050)8889900",
     "38050-111-22-22",
     "38050 111 22 11   ",
+    "тівлвоів456683",
+    "",
+    "123456",
+    "+12345",
 ]
 
-sanitized_numbers = [normalize_phone(phone_number) for phone_number in raw_numbers]
-print("Нормалізовані номери телефонів для SMS-розсилки:", sanitized_numbers)
-
+correct, incorrect = process_phone_numbers(raw_numbers)
+print("Коректні номери телефонів:", correct)
+print("Некоректні номери телефонів:", incorrect)
 
 
 
