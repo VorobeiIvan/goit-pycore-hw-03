@@ -42,7 +42,7 @@
 import random
 
 def get_numbers_ticket(min, max, quantity):
-    if min < 1 or max > 1000 or min > max or quantity > (max - min + 1):
+    if min < 1 or max > 1000 or min > max or quantity < 1 or quantity > (max - min + 1):
         return "Невалідні вхідні дані. Перевірте діапазон чисел або їх кількість."
     
     try:
@@ -58,4 +58,6 @@ print("Ваші лотерейні числа:", get_numbers_ticket(1, 49, 4))
 print("Результат:", get_numbers_ticket(-5, 50, 5))
 print("Результат:", get_numbers_ticket(1, 1050, 5))
 print("Результат:", get_numbers_ticket(1, 3, 6))
+print("Результат:", get_numbers_ticket(-10, 3, -6))
+
 
